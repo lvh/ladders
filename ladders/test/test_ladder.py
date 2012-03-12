@@ -2,19 +2,21 @@ import unittest
 from ladders import naive
 
 red_herrings = {
-    4: ["lord", "lard", "rare", "dork", "moon", "trap", "trip"]
+    4: ["lord", "text", "rare", "dork", "moon", "trap", "trip", "code"]
 }
 
 class _LadderTest(object):
-    implementations = [naive.find_ladder]
+    implementations = [naive.find_ladders]
 
     def _test(self, words, expected):
         """
         Tests all implementations with the given word list.
         """
-        for find_ladder in self.implementations:
-            ladder = find_ladder(self.start, self.target, words)
-            self.assertEqual(ladder, expected)
+        for find_ladders in self.implementations:
+            ladders = find_ladders(self.start, self.target, words)
+            for ladder in ladders:
+                names = [node.name for node in ladder]
+                self.assertEqual(names, expected)
 
 
     def test_ladder(self):

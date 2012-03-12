@@ -1,32 +1,41 @@
+#!-*- encoding: utf-8 -*-
 """
 A naive word ladder algorithm.
 """
+from ladders import blind, graph
 
-def find_ladder(start, target, words):
-    """
-    Naive word ladder algorithm.
 
-    Does linear search over ``words`` for each step in the ladder.
-    """
-    current, ladder = start, [start]
+class NaiveNode(graph.Node):
+    def __init__(self, name, words):
+        super(NaiveNode, self).__init__(name)
+        self.words = words
 
-    while current != target:
-        current = _find_next(current, target, words)
-        ladder.append(current)
 
-    return ladder
+    @property
+    def children(self):
+        child_words = [word for word in self.words if word != self.name]
+        for word in child_words:
+            if _distance(word, self.name) == 1:
+                yield NaiveNode(word, child_words)
+
+
+    @children.setter
+    def children(self, words):
+        self.words = words
+
 
 
 def _distance(word_one, word_two):
     return sum(1 for (x, y) in zip(word_one, word_two) if x != y)
 
 
-def _find_next(current, target, words):
-    current_distance = _distance(current, target)
+def find_ladders(start, target, words):
+    """
+    Naive word ladder algorithm.
+    """
+    root = NaiveNode(start, words)
 
-    for candidate in words:
-        closer = _distance(candidate, target) < current_distance
-        if closer and _distance(current, candidate) == 1:
-            return candidate
-    else:
-        raise ValueError("can't find the next step in the word ladder")
+    def goal(node):
+        return node.name == target
+
+    return blind.depth_first_search(root, goal)
