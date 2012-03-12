@@ -1,46 +1,52 @@
 import unittest
-from ladders import naive
+from ladders import heuristic, naive
 
 red_herrings = {
-    4: ["lord", "text", "rare", "dork", "moon", "trap", "trip", "code"]
+    4: ["lord", "text", "tarp", "dork", "moon", "trap", "trip", "code"]
 }
 
-class _LadderTest(object):
-    implementations = [naive.find_ladders]
 
+samples = [
+    ['cold', 'cord', 'card', 'ward', 'warm'],
+    ["head", "heal", "teal", "tell", "tall", "tail"],
+    ['heap', 'heat', 'peat', 'pert', 'port', 'sort'],
+    ['like', 'bike', 'bake', 'rake', 'rate']
+]
+
+
+
+class _LadderTest(object):
     def _test(self, words, expected):
         """
         Tests all implementations with the given word list.
         """
-        for find_ladders in self.implementations:
-            ladders = find_ladders(self.start, self.target, words)
-            for ladder in ladders:
-                names = [node.name for node in ladder]
-                self.assertEqual(names, expected)
+        start, target = expected[0], expected[-1]
+        ladders = self.find_ladders(start, target, words)
+        for ladder in ladders:
+            names = [node.name for node in ladder]
+            self.assertEqual(names, expected)
 
 
     def test_ladder(self):
-        self._test(self.words, self.words)
+        for words in samples:
+            self._test(words, words)
 
 
     def test_with_herrings(self):
-        length = len(self.words[0])
-        self._test(self.words + red_herrings[length], self.words)
+        for words in samples:
+            self._test(words + red_herrings[len(words[0])], words)
 
 
 
-class ColdWarmTest(_LadderTest, unittest.TestCase):
-    start, target = "cold", "warm"
-    words = ['cold', 'cord', 'card', 'ward', 'warm']
+class BreadthFirstTest(_LadderTest, unittest.TestCase):
+    find_ladders = staticmethod(naive.breadth_first)
 
 
 
-class HeadTailTest(_LadderTest, unittest.TestCase):
-    start, target = "head", "tail"
-    words = ["head", "heal", "teal", "tell", "tall", "tail"]
+class DepthFirstTest(_LadderTest, unittest.TestCase):
+    find_ladders = staticmethod(naive.depth_first)
 
 
 
-class HeapSortTest(_LadderTest, unittest.TestCase):
-    start, target = "heap", "sort"
-    words = ['heap', 'heat', 'peat', 'pert', 'port', 'sort']
+class HeuristicTest(_LadderTest, unittest.TestCase):
+    find_ladders = staticmethod(heuristic.find_ladders)

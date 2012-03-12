@@ -7,7 +7,7 @@ import itertools
 
 class Node(object):
     """
-    I am a node in a graph.
+    A node in a graph.
 
     This is also sometimes called a vertex in literature.
     """
@@ -54,6 +54,33 @@ class Node(object):
         """
         return "Node(%r)" % (self.name,)
 
+
+
+class LadderNode(Node):
+    """
+    A node in a word ladder search graph.
+    """
+    def __init__(self, name, words):
+        super(LadderNode, self).__init__(name)
+        self.words = words
+
+
+    @property
+    def children(self):
+        child_words = [word for word in self.words if word != self.name]
+        for word in child_words:
+            if distance(word, self.name) == 1:
+                yield LadderNode(word, child_words)
+
+
+    @children.setter
+    def children(self, words):
+        self.words = words
+
+
+
+def distance(word_one, word_two):
+    return sum(1 for (x, y) in zip(word_one, word_two) if x != y)
 
 
 def extended_paths(path):
