@@ -33,6 +33,12 @@ class ColdWarmTest(_LadderTest, unittest.TestCase):
 
 
 
+class HeadTailTest(_LadderTest, unittest.TestCase):
+    start, target = "head", "tail"
+    words = ["head", "heal", "teal", "tell", "tall", "tail"]
 
 
 
+class HeapSortTest(_LadderTest, unittest.TestCase):
+    start, target = "heap", "sort"
+    words = ['heap', 'heat', 'peat', 'pert', 'port', 'sort']
