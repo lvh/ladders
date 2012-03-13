@@ -2,15 +2,18 @@ import unittest
 from ladders import heuristic, naive
 
 red_herrings = {
-    4: ["lord", "text", "tarp", "dork", "moon", "trap", "trip", "code"]
+    3: ['CAD', 'TRY', 'POT', 'NOT', 'ROT', 'TOT', 'COT'],
+    4: ['LORD', 'TEXT', 'TARP', 'DORK', 'MOON', 'TRAP', 'TRIP', 'CODE']
 }
 
 
 samples = [
-    ['cold', 'cord', 'card', 'ward', 'warm'],
-    ["head", "heal", "teal", "tell", "tall", "tail"],
-    ['heap', 'heat', 'peat', 'pert', 'port', 'sort'],
-    ['like', 'bike', 'bake', 'rake', 'rate']
+    ['COLD', 'CORD', 'CARD', 'WARD', 'WARM'],
+    ['HEAD', 'HEAL', 'TEAL', 'TELL', 'TALL', 'TAIL'],
+    ['HEAP', 'HEAT', 'PEAT', 'PERT', 'PORT', 'SORT'],
+    ['LIKE', 'BIKE', 'BAKE', 'RAKE', 'RATE'],
+    ['PIG', 'WIG', 'WAG', 'WAY', 'SAY', 'STY'],
+    ['FIVE', 'FIRE', 'FIRM', 'FORM', 'FOAM', 'FOAL', 'FOUL', 'FOUR']
 ]
 
 
