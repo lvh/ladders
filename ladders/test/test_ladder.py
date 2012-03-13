@@ -13,7 +13,11 @@ samples = [
     ['HEAP', 'HEAT', 'PEAT', 'PERT', 'PORT', 'SORT'],
     ['LIKE', 'BIKE', 'BAKE', 'RAKE', 'RATE'],
     ['PIG', 'WIG', 'WAG', 'WAY', 'SAY', 'STY'],
-    ['FIVE', 'FIRE', 'FIRM', 'FORM', 'FOAM', 'FOAL', 'FOUL', 'FOUR']
+    ['FIVE', 'FIRE', 'FIRM', 'FORM', 'FOAM', 'FOAL', 'FOUL', 'FOUR'],
+    ['INK', 'INO', 'DNO', 'DUO', 'DUN', 'DEN', 'PEN'],
+    ['NOSE', 'JOSE', 'JOIE', 'JOIN', 'COIN', 'CHIN'],
+    ['DRY', 'DAY', 'BAY', 'BAT', 'BET', 'WET'],
+    ['SOUP', 'SOUL', 'SAUL', 'HAUL', 'HARL', 'HARE']
 ]
 
 
