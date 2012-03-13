@@ -14,7 +14,21 @@ samples = [
 ]
 
 
+def add_sample_tests(test_case):
+    for words in samples:
+        start, end = words[0], words[-1]
 
+        name = "test_{}_{}_ladder".format(start, end)
+        setattr(test_case, name, lambda self: self._test_ladder(words))
+
+        name = "test_{}_{}_with_herrings".format(start, end)
+        setattr(test_case, name, lambda self: self._test_with_herrings(words))
+
+    return test_case
+
+
+
+@add_sample_tests
 class _LadderTest(object):
     def _test(self, words, expected):
         """
@@ -27,14 +41,12 @@ class _LadderTest(object):
             self.assertEqual(names, expected)
 
 
-    def test_ladder(self):
-        for words in samples:
-            self._test(words, words)
+    def _test_ladder(self, words):
+        self._test(words, words)
 
 
-    def test_with_herrings(self):
-        for words in samples:
-            self._test(words + red_herrings[len(words[0])], words)
+    def _test_with_herrings(self, words):
+        self._test(words + red_herrings[len(words[0])], words)
 
 
 
