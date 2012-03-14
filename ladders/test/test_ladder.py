@@ -26,7 +26,8 @@ samples = [
     ['HOT', 'HOA', 'KOA', 'KEA', 'TEA'],
     ['HAIR', 'LAIR', 'LAIE', 'LAME', 'CAME', 'COME', 'COMB'],
     ['OAK', 'OAR', 'FAR', 'FAY', 'FLY', 'ELY', 'ELM'],
-    ['NAVY', 'NARY', 'MARY', 'MIRY', 'AIRY', 'AIRS', 'AIMS', 'ARMS', 'ARMY']
+    ['NAVY', 'NARY', 'MARY', 'MIRY', 'AIRY', 'AIRS', 'AIMS', 'ARMS', 'ARMY'],
+    ['FISH', 'DISH', 'DISK', 'DICK', 'DOCK', 'HOCK', 'HOOK']
 ]
 
 
