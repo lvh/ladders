@@ -89,7 +89,7 @@ class LadderNode(Node):
 
 
 def distance(word_one, word_two):
-    return sum(1 for (x, y) in zip(word_one, word_two) if x != y)
+    return sum([1 for (x, y) in zip(word_one, word_two) if x != y])
 
 
 def extended_paths(path):
