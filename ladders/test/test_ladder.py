@@ -19,7 +19,13 @@ samples = [
     ['INK', 'INO', 'DNO', 'DUO', 'DUN', 'DEN', 'PEN'],
     ['NOSE', 'JOSE', 'JOIE', 'JOIN', 'COIN', 'CHIN'],
     ['DRY', 'DAY', 'BAY', 'BAT', 'BET', 'WET'],
-    ['SOUP', 'SOUL', 'SAUL', 'HAUL', 'HARL', 'HARE']
+    ['SOUP', 'SOUL', 'SAUL', 'HAUL', 'HARL', 'HARE'],
+    ['PIE', 'PIG', 'BIG', 'BEG', 'BEL', 'EEL'],
+    ['RICH', 'RICK', 'ROCK', 'SOCK', 'SOUK', 'SOUR', 'POUR', 'POOR'],
+    ['APE', 'AUE', 'DUE', 'DUN', 'DAN', 'MAN'],
+    ['HOT', 'HOA', 'KOA', 'KEA', 'TEA'],
+    ['HAIR', 'LAIR', 'LAIE', 'LAME', 'CAME', 'COME', 'COMB'],
+    ['OAK', 'OAR', 'FAR', 'FAY', 'FLY', 'ELY', 'ELM']
 ]
 
 
