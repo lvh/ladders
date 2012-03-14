@@ -12,8 +12,10 @@ def _find_ladders(search, start, target, words):
     Naive word ladder algorithm that finds ladders by depth-first search.
     """
     root = graph.LadderNode(start, words)
+
     def goal(node):
         return node.name == target
+    
     return search(root, goal)
 
 
