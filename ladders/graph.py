@@ -67,6 +67,15 @@ class LadderNode(Node):
 
     @property
     def children(self):
+        children = self._get_children()
+        try:
+            first_child = children.next()
+            return itertools.chain([first_child], children)
+        except StopIteration:
+            return []
+
+
+    def _get_children(self):
         child_words = [word for word in self.words if word != self.name]
         for word in child_words:
             if distance(word, self.name) == 1:
