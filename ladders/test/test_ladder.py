@@ -53,25 +53,26 @@ def sample_test(f):
 
 @add_sample_tests
 class _LadderTest(object):
-    def _test(self, words, expected):
-        """
-        Tests all implementations with the given word list.
-        """
+    def _find_ladder(self, words, expected):
         start, target = expected[0], expected[-1]
-        ladders = self.find_ladders(start, target, words)
-        for ladder in ladders:
-            names = [node.name for node in ladder]
-            self.assertEqual(names, expected)
+        ladder, = list(self.find_ladders(start, target, words))
+        names = [node.name for node in ladder]
+        self.assertEqual(names, expected)
 
 
     @sample_test
     def _test_ladder(self, words):
-        self._test(words, words)
+        self._find_ladder(words, words)
 
 
     @sample_test
     def _test_with_herrings(self, words):
-        self._test(words + red_herrings[len(words[0])], words)
+        self._find_ladder(words + red_herrings[len(words[0])], words)
+
+
+    @sample_test
+    def _test_no_path(self, words):
+        self.assertRaises(ValueError, self._find_ladder, [], words)
 
 
 
