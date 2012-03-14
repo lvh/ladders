@@ -1,4 +1,6 @@
+import functools
 import unittest
+
 from ladders import heuristic, naive
 
 red_herrings = {
@@ -21,17 +23,24 @@ samples = [
 ]
 
 
+sample_tests = []
+
+
 def add_sample_tests(test_case):
     for words in samples:
         start, end = words[0], words[-1]
 
-        name = "test_{}_{}_ladder".format(start, end)
-        setattr(test_case, name, lambda self: self._test_ladder(words))
-
-        name = "test_{}_{}_with_herrings".format(start, end)
-        setattr(test_case, name, lambda self: self._test_with_herrings(words))
+        for f in sample_tests:
+            base_name = f.__name__.lstrip("_test_")
+            name = "test_{}_{}_{}".format(start, end, base_name)
+            setattr(test_case, name, lambda self: f(self, words))
 
     return test_case
+
+
+def sample_test(f):
+    sample_tests.append(f)
+    return f
 
 
 
@@ -48,10 +57,12 @@ class _LadderTest(object):
             self.assertEqual(names, expected)
 
 
+    @sample_test
     def _test_ladder(self, words):
         self._test(words, words)
 
 
+    @sample_test
     def _test_with_herrings(self, words):
         self._test(words + red_herrings[len(words[0])], words)
 
