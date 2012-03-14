@@ -38,7 +38,7 @@ def add_sample_tests(test_case):
 
         for f in sample_tests:
             base_name = f.__name__.lstrip("_test_")
-            name = "test_{}_{}_{}".format(start, end, base_name)
+            name = "test_{}_{}_{}".format(base_name, start, end)
             setattr(test_case, name, lambda self: f(self, words))
 
     return test_case
