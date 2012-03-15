@@ -2,4 +2,4 @@
  ladders
 =========
 
-This is an entry in the EventBrite word ladders competition.
+This is an entry in the Benefitfocus word ladders competition.
