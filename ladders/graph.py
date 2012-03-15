@@ -60,9 +60,10 @@ class LadderNode(Node):
     """
     A node in a word ladder search graph.
     """
-    def __init__(self, name, words):
+    def __init__(self, name, words, cache=None):
         super(LadderNode, self).__init__(name)
-        self.words = words
+        self._words = words
+        self._cache = cache
 
 
     @property
@@ -76,7 +77,19 @@ class LadderNode(Node):
 
 
     def _get_children(self):
-        child_words = [word for word in self.words if word != self.name]
+        if self._cache is not None:
+            return self._cached_child_search()
+        else:
+            return self._linear_child_search()
+
+
+    def _cached_child_search(self):
+         for word in self._cache.find_adjacent_words(self.name):
+            yield LadderNode(word, None, self._cache)
+
+
+    def _linear_child_search(self):
+        child_words = [word for word in self._words if word != self.name]
         for word in child_words:
             if distance(word, self.name) == 1:
                 yield LadderNode(word, child_words)
@@ -84,7 +97,7 @@ class LadderNode(Node):
 
     @children.setter
     def children(self, words):
-        self.words = words
+        self._words = words
 
 
 

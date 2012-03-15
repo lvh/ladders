@@ -1,7 +1,8 @@
 import argparse
 import logging
+import sqlite3
 
-from ladders import naive, heuristic
+from ladders import cache, naive, heuristic
 
 
 algorithms = {
@@ -21,6 +22,13 @@ def parse_word_list(fn):
 		return [word.strip().upper() for word in f]
 
 
+def make_cache(fn):
+	if fn is not None:
+		return cache.Cache(sqlite3.connect(fn))
+	else:
+		return None
+
+
 parser = argparse.ArgumentParser(description="Find word ladders")
 
 parser.add_argument('start', metavar='START',
@@ -37,6 +45,8 @@ parser.add_argument('-o, --optimal', dest="optimal",
 	help='if set, finds the shortest possible ladder')
 parser.add_argument('-w, --word-list', dest="words",
 	action='store', type=parse_word_list)
+parser.add_argument('-c, --cache', dest="cache",
+	action='store', type=make_cache)
 parser.add_argument('-v, --verbose', dest="verbose",
 	action='store_true',
 	help='verbose logging')
@@ -44,10 +54,13 @@ parser.add_argument('-v, --verbose', dest="verbose",
 def main():
 	args = parser.parse_args()
 
-	if args.verbose:
-		logging.basicConfig()
+	level = (logging.DEBUG if args.verbose else logging.ERROR)
+	logging.basicConfig(level=level)
 
-	ladders = args.algorithm(args.start, args.target, args.words)
+	if args.cache is not None and args.words is not None:
+		args.cache.add_words(args.words)
+
+	ladders = args.algorithm(args.start, args.target, args.words, args.cache)
 
 	if args.optimal:
 		ladder = min(ladders, key=len)
@@ -55,6 +68,6 @@ def main():
 		ladder = ladders.next()
 
 	if not args.verbose:
-		print "{} {} {}".format(ladder[0], ladder[-1], len(ladder))
+		print "{} {} {}".format(args.start, args.target, len(ladder))
 	else:
 		print ladder

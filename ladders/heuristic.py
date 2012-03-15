@@ -6,11 +6,11 @@ import functools
 from ladders import graph, search
 
 
-def find_ladders(start, target, words):
+def find_ladders(start, target, words, cache=None):
 	"""
 	Find ladders heuristically.
 	"""
-	root = graph.LadderNode(start, words)
+	root = graph.LadderNode(start, words, cache)
 
 	def heuristic(path):
 		return graph.distance(path[-1].name, target)

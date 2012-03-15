@@ -7,15 +7,15 @@ import functools
 from ladders import blind, graph
 
 
-def _find_ladders(search, start, target, words):
+def _find_ladders(search, start, target, words, cache=None):
     """
     Naive word ladder algorithm that finds ladders by depth-first search.
     """
-    root = graph.LadderNode(start, words)
+    root = graph.LadderNode(start, words, cache)
 
     def goal(node):
         return node.name == target
-    
+
     return search(root, goal)
 
 
