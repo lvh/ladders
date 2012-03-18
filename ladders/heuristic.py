@@ -24,4 +24,6 @@ def find_ladders(start, target, words, cache=None):
 
 def _heuristic_expander(path, queue, heuristic):
 	queue.extend(search._acyclic_extended_paths(path))
-	return sorted(queue, key=heuristic)
+        prioritized = sorted(queue, key=heuristic)
+        queue.clear()
+        queue.extend(prioritized)
