@@ -52,77 +52,6 @@ class BreadthFirstSearchTests(unittest.TestCase, CommonSearchTestsMixin):
         self.assertRaises(StopIteration, paths.next)
 
 
-class _MemoryNode(graph.Node): # inherit __eq__, __hash__
-    """
-    A nodelike that remembers if you have asked about it's children.
-    """
-    def __init__(self, name, children=None):
-        self.name = name
-        self._children = set(children) if children else set()
-        self.reset()
-
-
-    def reset(self):
-        self.readFrom, self.writtenTo = False, False
-
-
-    def _getChildren(self):
-        self.readFrom = True
-        return self._children
-
-
-    def _setChildren(self, children):
-        self.writtenTo = True
-        self._children = set(children)
-
-
-    children = property(fget=_getChildren, fset=_setChildren)
-        
-
-
-class TestMemoryNode(unittest.TestCase):
-    def test_access(self):
-        n = _MemoryNode(1)
-        self.assertFalse(n.readFrom)
-        n.children
-        self.assertTrue(n.readFrom)
-
-
-    def test_access_reset(self):
-        n = _MemoryNode(1)
-        n.children
-        n.reset()
-        self.assertFalse(n.readFrom)        
-
-
-    def test_mutation(self):
-        n = _MemoryNode(1)
-        self.assertFalse(n.readFrom)
-        n.children.add(_MemoryNode(2))
-        self.assertTrue(n.readFrom)
-
-
-    def test_mutation_reset(self):
-        n = _MemoryNode(1)
-        n.children.add(_MemoryNode(2))
-        n.reset()
-        self.assertFalse(n.readFrom)
-
-
-    def test_assignment(self):
-        n = _MemoryNode(1)
-        self.assertFalse(n.writtenTo)
-        n.children = set()
-        self.assertTrue(n.writtenTo)
-
-
-    def test_assignment_reset(self):
-        n = _MemoryNode(1)
-        n.children = set()
-        n.reset()
-        self.assertFalse(n.writtenTo)
-
-
 
 class DepthFirstSearchTests(unittest.TestCase, CommonSearchTestsMixin):
     def setUp(self):
@@ -131,7 +60,7 @@ class DepthFirstSearchTests(unittest.TestCase, CommonSearchTestsMixin):
 
     def test_parallel_branches_with_two_goals(self):
         r = graph.Node("r")
-        b1, b2 = [graph.create_branch(i, node_class=_MemoryNode)
+        b1, b2 = [graph.create_branch(i, node_class=MemoryNode)
                   for i in ("abcdefG", "ABCDEFG")]
         r.children.update(set([b1[0], b2[0]]))
 
@@ -140,12 +69,12 @@ class DepthFirstSearchTests(unittest.TestCase, CommonSearchTestsMixin):
 
         paths = self.search_function(r, lambda n: n == b1[-1])
 
-        pickedPath = paths.next() # generator is lazy
+        picked_path = paths.next() # generator is lazy
 
         self.assertTrue(all(n1.readFrom ^ n2.readFrom)
                         for n1, n2 in itertools.izip(b1[:-1], b2[:-1]))
         
-        picked, notPicked = [b1, b2] if b1[0].readFrom else [b2, b1]
+        picked, not_picked = [b1, b2] if b1[0].readFrom else [b2, b1]
 
         for step in picked[:-1]:
             self.assertTrue(step.readFrom)
@@ -153,8 +82,8 @@ class DepthFirstSearchTests(unittest.TestCase, CommonSearchTestsMixin):
         for step in notPicked[:-1]:
             self.assertFalse(step.readFrom)
 
-        notPickedPath = paths.next()
-        
+        not_picked_path = paths.next()
+
         for step in notPicked[:-1]:
             self.assertTrue(step.readFrom)
 

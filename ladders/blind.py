@@ -4,7 +4,7 @@ Functions of searching blindly in a search tree.
 """
 import logging
 
-from ladders import graph, search
+from ladders import search
 
 
 log = logging.getLogger('ladders.blind')
