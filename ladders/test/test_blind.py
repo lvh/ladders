@@ -6,6 +6,7 @@ import itertools
 import unittest
 
 from ladders import graph, blind
+from ladders.test import memorynode
 
 
 class CommonSearchTestsMixin(object):
@@ -59,32 +60,30 @@ class DepthFirstSearchTests(unittest.TestCase, CommonSearchTestsMixin):
 
 
     def test_parallel_branches_with_two_goals(self):
-        r = graph.Node("r")
-        b1, b2 = [graph.create_branch(i, node_class=MemoryNode)
-                  for i in ("abcdefG", "ABCDEFG")]
-        r.children.update(set([b1[0], b2[0]]))
+        root = graph.Node("root")
+        left, right = map(memorynode.create_branch, ("abcdefG", "ABCDEFG"))
+        root.children.update(set([left[0], right[0]]))
 
-        for node in itertools.chain(b1, b2):
+        for node in itertools.chain(left, right):
             node.reset() # create_branch accesses children
 
-        paths = self.search_function(r, lambda n: n == b1[-1])
-
+        paths = self.search_function(root, lambda n: n == left[-1])
         picked_path = paths.next() # generator is lazy
 
         self.assertTrue(all(n1.readFrom ^ n2.readFrom)
-                        for n1, n2 in itertools.izip(b1[:-1], b2[:-1]))
+                        for n1, n2 in itertools.izip(left[:-1], right[:-1]))
         
-        picked, not_picked = [b1, b2] if b1[0].readFrom else [b2, b1]
+        picked, not_picked = [left, right] if left[0].readFrom else [right, left]
 
         for step in picked[:-1]:
             self.assertTrue(step.readFrom)
 
-        for step in notPicked[:-1]:
+        for step in not_picked[:-1]:
             self.assertFalse(step.readFrom)
 
         not_picked_path = paths.next()
 
-        for step in notPicked[:-1]:
+        for step in not_picked[:-1]:
             self.assertTrue(step.readFrom)
 
         self.assertRaises(StopIteration, paths.next)

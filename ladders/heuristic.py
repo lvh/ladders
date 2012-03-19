@@ -18,14 +18,14 @@ def find_ladders(start, target, words, cache=None):
     def goal(node):
         return node.name == target
 
-        return heuristic_search(root, goal, heuristic)
+    return heuristic_search(root, goal, heuristic)
 
 
 def _heuristic_expander(path, queue, heuristic):
     queue.extend(search._acyclic_extended_paths(path))
-        prioritized = sorted(queue, key=heuristic)
-        queue.clear()
-        queue.extend(prioritized)
+    prioritized = sorted(queue, key=heuristic)
+    queue.clear()
+    queue.extend(prioritized)
 
 
 def heuristic_search(root, goal, heuristic):

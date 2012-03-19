@@ -3,6 +3,8 @@ A node that tracks what was done to it.
 
 Useful for testing.
 """
+import functools
+
 from ladders import graph
 
 
@@ -31,3 +33,6 @@ class MemoryNode(graph.Node): # inherit __eq__, __hash__
 
 
     children = property(fget=_getChildren, fset=_setChildren)
+
+
+create_branch = functools.partial(graph.create_branch, node_class=MemoryNode)
